@@ -15,6 +15,7 @@ builder.Services.AddDbContext<DevLifeDbContext>(options =>
 
 
 
+builder.Configuration.AddEnvironmentVariables();
 
 
 
@@ -23,7 +24,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(); // <--- ეს ხსნის UI-ს
+    app.UseSwaggerUI();
 }
     else
     {
@@ -36,5 +37,6 @@ app.MapGet("/", () => "Hello World!");
 
 //Endpoints
 app.MapAuthEndpoints();
+app.MapCasinoEndpoints();
 
 app.Run();

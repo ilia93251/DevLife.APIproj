@@ -5,7 +5,7 @@ namespace DevLife.APIproj.Data
 {
     public class DevLifeDbContext : DbContext
     {
-        DevLifeDbContext(DbContextOptions<DevLifeDbContext> options) : base(options)
+        public DevLifeDbContext(DbContextOptions<DevLifeDbContext> options) : base(options)
         {
         }
 

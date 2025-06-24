@@ -18,6 +18,6 @@
 
         public string Zodiac { get; set; } = string.Empty;
 
-        int Coins { get; set; } = 10;
+       public int Coins { get; set; } = 10;
     }
 }
