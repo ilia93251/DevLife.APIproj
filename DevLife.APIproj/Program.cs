@@ -38,5 +38,6 @@ app.MapGet("/", () => "Hello World!");
 //Endpoints
 app.MapAuthEndpoints();
 app.MapCasinoEndpoints();
+app.MapCoadRoastEndpoint();
 
 app.Run();

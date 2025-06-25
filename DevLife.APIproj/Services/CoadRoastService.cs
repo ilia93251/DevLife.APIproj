@@ -30,8 +30,24 @@ namespace DevLife.APIproj.Services
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apikey);
 
             var content = new StringContent(JsonSerializer.Serialize(request));
-            var response = await http
+            var response = await http.PostAsync("https://api.openai.com/v1/chat/completions", content);
 
-        } 
+            if (!response.IsSuccessStatusCode) return $"error  { response.StatusCode}";
+
+            using var responseStream =  await response.Content.ReadAsStreamAsync();
+            using var jsonDoc = await JsonDocument.ParseAsync(responseStream);
+
+            var root = jsonDoc.RootElement;
+
+            var message = root
+               .GetProperty("choices")[0]
+               .GetProperty("message")
+               .GetProperty("content")
+               .GetString();
+
+            if (string.IsNullOrEmpty(message)) return "its empty";
+
+            return message;
+        }
     }
 }
