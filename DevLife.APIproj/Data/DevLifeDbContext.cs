@@ -10,6 +10,7 @@ namespace DevLife.APIproj.Data
         }
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<BugChaseScore> BugChaseScores => Set<BugChaseScore>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

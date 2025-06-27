@@ -39,15 +39,15 @@ namespace DevLife.APIproj.Services
 
             var root = jsonDoc.RootElement;
 
-            var message = root
+            var messages = root
                .GetProperty("choices")[0]
                .GetProperty("message")
                .GetProperty("content")
                .GetString();
 
-            if (string.IsNullOrEmpty(message)) return "its empty";
+            if (string.IsNullOrEmpty(messages)) return "its empty";
 
-            return message;
+            return messages;
         }
     }
 }

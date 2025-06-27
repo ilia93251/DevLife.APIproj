@@ -1,6 +1,8 @@
-﻿using DevLife.APIproj.DTO;
+﻿using DevLife.APIproj.Data;
+using DevLife.APIproj.DTO;
+using DevLife.APIproj.Endpoints;
 using DevLife.APIproj.Endpointz;
-using DevLife.APIproj.Data;
+using DevLife.APIproj.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Services 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<DevLifeDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -39,5 +42,10 @@ app.MapGet("/", () => "Hello World!");
 app.MapAuthEndpoints();
 app.MapCasinoEndpoints();
 app.MapCoadRoastEndpoint();
+app.MapBugChaseEndpoints();
+app.MapExcuseEndpoints();
+app.MapGitHubEndpoints();
+app.MapHub<BugChaseHub>("/hub/bugchase");
 
-app.Run();
+
+app.Run(); 
