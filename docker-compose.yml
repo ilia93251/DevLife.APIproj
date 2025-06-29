@@ -1,34 +1,46 @@
 version: '3.8'
 
 services:
-  devlife-api:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: devlife-api
     ports:
-      - "5000:80"
+      - "5000:5000"
     depends_on:
+      - mongo
+      - redis
       - postgres
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-    restart: unless-stopped
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MONGODB_URL=mongodb://mongo:27017/devlife
+      - REDIS_URL=redis://redis:6379
+      - OPENAI_API_KEY=sk-XXXXXXXXXXXXXXXX
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=devlife;Username=devuser;Password=devpass
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
 
   postgres:
     image: postgres:16
-    container_name: devlife-postgres
-    restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: devlife
       POSTGRES_USER: devuser
       POSTGRES_PASSWORD: devpass
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
+  mongo-data:
   pgdata:

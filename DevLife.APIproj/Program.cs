@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddDbContext<DevLifeDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -45,6 +46,7 @@ app.MapCoadRoastEndpoint();
 app.MapBugChaseEndpoints();
 app.MapExcuseEndpoints();
 app.MapGitHubEndpoints();
+app.MapDatingEndpoints();
 app.MapHub<BugChaseHub>("/hub/bugchase");
 
 
