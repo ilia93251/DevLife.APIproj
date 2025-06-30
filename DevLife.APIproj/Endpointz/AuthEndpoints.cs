@@ -13,6 +13,7 @@ namespace DevLife.APIproj.Endpointz
             //Register Endpoint
             app.MapPost("/register", async (RegisterDto registerDto, DevLifeDbContext db) =>
             {
+                
 
                 if (await db.Users.AnyAsync(u => u.Username == registerDto.Username))
                 {
@@ -26,7 +27,8 @@ namespace DevLife.APIproj.Endpointz
                     Lastname = registerDto.Lastname,
                     BirthDate = registerDto.BirthDate,
                     Level = registerDto.Level,
-                    Stack = registerDto.Stack
+                    Stack = registerDto.Stack,
+                    ZodiacSign = ZodiacHelper.GetZodiacSign(registerDto.BirthDate)
                 };
                 db.Users.Add(user);
                 await db.SaveChangesAsync();

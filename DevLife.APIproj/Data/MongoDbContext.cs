@@ -12,3 +12,4 @@ public class MongoDbContext
     public IMongoCollection<DatingProfile> DatingProfiles =>
         _database.GetCollection<DatingProfile>("dating_profiles");
 }
+ 

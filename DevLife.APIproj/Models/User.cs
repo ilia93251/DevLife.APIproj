@@ -16,7 +16,7 @@
 
         public string Stack { get; set; } = string.Empty;
 
-        public string Zodiac { get; set; } = string.Empty;
+        public string ZodiacSign { get; set; } = string.Empty;
 
        public int Coins { get; set; } = 10;
     }
