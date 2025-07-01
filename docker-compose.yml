@@ -1,23 +1,6 @@
 version: '3.8'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mongo
-      - redis
-      - postgres
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - MONGODB_URL=mongodb://mongo:27017/devlife
-      - REDIS_URL=redis://redis:6379
-      - OPENAI_API_KEY=sk-XXXXXXXXXXXXXXXX
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=devlife;Username=devuser;Password=devpass
-
   mongo:
     image: mongo
     ports:
