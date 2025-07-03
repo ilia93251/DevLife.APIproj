@@ -15,16 +15,23 @@ namespace DevLife.APIproj.Endpointz
             app.MapPost("/api/casino/submit", async (
                   CodeGuessRequest request,
                   IConfiguration config,
-                  DevLifeDbContext db
+                  DevLifeDbContext db,
+                  HttpContext http
                   ) =>
             {
                 var apikey = config["OPENAI_API_KEY"];
                 if (string.IsNullOrEmpty(apikey)) 
                     return Results.Problem("Missing ApiKey");
 
+                var username = http.Session.GetString("username");
+                if (string.IsNullOrEmpty(username))
+                    return Results.Unauthorized();
+
+
                 var user = await db.Users.FirstOrDefaultAsync(x => x.Username == request.Username);
                 if (user == null) 
                     return Results.NotFound("User not found");
+
 
                 var challenge = await CodeChallengeService.GenerateChallengeFromAI(request.Stack, apikey);
                 if (challenge is null) 

@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using DevLife.APIproj.Models;
+﻿using DevLife.APIproj.Models;
 using DevLife.APIproj.Services;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using static System.Net.WebRequestMethods;
 
 namespace DevLife.APIproj.Endpointz
 {
@@ -10,11 +11,17 @@ namespace DevLife.APIproj.Endpointz
         {
             app.MapPost("/api/roast", async (
                 CodeRoastRequest request,
-                IConfiguration config
+                IConfiguration config,
+                HttpContext http
             ) =>
             {
                 if (string.IsNullOrWhiteSpace(request.Usercode) || string.IsNullOrWhiteSpace(request.Language))
                     return Results.BadRequest("language or code is missing");
+
+                var username = http.Session.GetString("username");
+                if (string.IsNullOrEmpty(username))
+                    return Results.Unauthorized();
+
 
                 var apikey = config["OPENAI_API_KEY"];
                 if (string.IsNullOrEmpty(apikey))

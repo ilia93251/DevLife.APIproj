@@ -14,12 +14,17 @@ namespace DevLife.APIproj.Endpointz
             app.MapPost("/bugchase/score", async (
                 BugChaseScore incomingScore, 
                 DevLifeDbContext db,
-                IHubContext<BugChaseHub> hub) =>
+                IHubContext<BugChaseHub> hub,
+                HttpContext http) =>
 
             {
+
+                var username = http.Session.GetString("username");
+                if (string.IsNullOrEmpty(username))
+                    return Results.Unauthorized();
+
                 if (incomingScore.Score <= 0 || string.IsNullOrEmpty(incomingScore.Username))
                     return Results.BadRequest("incorrect username or score");
-
 
                 db.BugChaseScores.Add(incomingScore);
                 await db.SaveChangesAsync();
